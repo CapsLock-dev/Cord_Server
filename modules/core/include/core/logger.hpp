@@ -66,4 +66,11 @@ class Logger {
 
 };  // namespace cl::core
 
+#define LOG_TRACE(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::TRACE, msg);
+#define LOG_DEBUG(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::DEBUG, msg);
+#define LOG_INFO(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::INFO, msg);
+#define LOG_WARNING(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::WARNING, msg);
+#define LOG_ERROR(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::ERROR, msg);
+#define LOG_CRITICAL(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::CRITICAL, msg);
+
 #endif
