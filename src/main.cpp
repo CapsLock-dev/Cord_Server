@@ -4,12 +4,14 @@ int main() {
     auto& logger = cl::core::Logger::get_instance();
 
     cl::core::LogConfig default_config = {
-        .min_level = cl::core::LogLevel::INFO,
+        .min_level = cl::core::LogLevel::TRACE,
         .queue_size = 2048,
         .colored_output = true,
     };
     logger.init(default_config);
-    logger.log(cl::core::LogLevel::INFO, "Test");
+
+    LOG_ERROR("Error");
+    LOG_TRACE("Trace");
 
     logger.shutdown();
     return 0;

@@ -25,7 +25,7 @@ struct LogConfig {
 };
 
 class Logger {
-    public:
+public:
     static Logger& get_instance();
 
     Logger(const Logger&) = delete;
@@ -37,7 +37,9 @@ class Logger {
     void init(const LogConfig& cfg);
     void shutdown();
 
-    private:
+    LogLevel get_min_lvl() const {return m_config.min_level;}
+
+private:
     struct LogDecorators {
         std::string color;
         std::string tag;
@@ -66,11 +68,18 @@ class Logger {
 
 };  // namespace cl::core
 
-#define LOG_TRACE(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::TRACE, msg);
-#define LOG_DEBUG(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::DEBUG, msg);
-#define LOG_INFO(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::INFO, msg);
-#define LOG_WARNING(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::WARNING, msg);
-#define LOG_ERROR(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::ERROR, msg);
-#define LOG_CRITICAL(msg) cl::core::Logger::get_instance().log(cl::core::LogLevel::CRITICAL, msg);
+#define _CL_LOG_LEVEL_TEST(lvl, ...) \
+    do { \
+        if (lvl >= cl::core::Logger::get_instance().get_min_lvl()) { \
+            cl::core::Logger::get_instance().log(lvl,std::format(__VA_ARGS__));\
+        }\
+    } while(false)
+
+#define LOG_TRACE(...) _CL_LOG_LEVEL_TEST(cl::core::LogLevel::TRACE, __VA_ARGS__)
+#define LOG_DEBUG(...) _CL_LOG_LEVEL_TEST(cl::core::LogLevel::DEBUG, __VA_ARGS__)
+#define LOG_INFO(...) _CL_LOG_LEVEL_TEST(cl::core::LogLevel::INFO, __VA_ARGS__)
+#define LOG_WARNING(...) _CL_LOG_LEVEL_TEST(cl::core::LogLevel::WARNING, __VA_ARGS__)
+#define LOG_ERROR(...) _CL_LOG_LEVEL_TEST(cl::core::LogLevel::ERROR, __VA_ARGS__)
+#define LOG_CRITICAL(...) _CL_LOG_LEVEL_TEST(cl::core::LogLevel::CRITICAL, __VA_ARGS__)
 
 #endif
