@@ -10,10 +10,13 @@
 			"name": "base",
 			"hidden": true,
 			"binaryDir": "${sourceDir}/build/${presetName}",
+			"toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
 			"cacheVariables": {
 				"CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Woverloaded-virtual",
 				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-				"CMAKE_CXX_EXTENSIONS": "OFF"
+				"CMAKE_CXX_EXTENSIONS": "OFF",
+                "VCPKG_VERBOSE": true,
+                "BUILD_TESTING": true
 			}
 		},
 		{
@@ -26,7 +29,7 @@
 			}
 		},
 		{
-			"name": "debug",
+			"name": "Debug",
 			"displayName": "Debug",
 			"description": "Debug build with strict warnings and sanitizers.",
 			"inherits": [
@@ -38,7 +41,7 @@
 			}
 		},
 		{
-			"name": "debug-no-san",
+			"name": "Debug-no-san",
 			"displayName": "Debug (no sanitizers)",
 			"inherits": [
 				"base"
@@ -48,7 +51,7 @@
 			}
 		},
 		{
-			"name": "release",
+			"name": "Release",
 			"displayName": "Release",
 			"inherits": [
 				"base"
@@ -57,5 +60,17 @@
 				"CMAKE_BUILD_TYPE": "Release"
 			}
 		}
-	]
+	],
+    "testPresets": [ 
+        {
+            "name": "Debug",
+            "configurePreset": "Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error"
+            }
+        }
+    ]
 }
