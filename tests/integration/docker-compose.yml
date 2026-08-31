@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: cord_test_postgres
+    shm_size: 128mb
+    environment:
+      PGTZ: UTC
+      POSTGRES_DB: test_db
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pass
+    ports:
+      - 5433:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d test_db"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  
+  migrate:
+    image: ghcr.io/amacneil/dbmate
+    container_name: cord_test_migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://test_user:test_pass@cord_test_postgres:5432/test_db?sslmode=disable
+    volumes:
+      - ../../migrations:/db/migrations
+    command: ["up"]

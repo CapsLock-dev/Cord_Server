@@ -6,7 +6,10 @@ set(EXEC_SRCS
 	src/main.cpp
 )
 
+find_package(libpqxx CONFIG REQUIRED)
+
 add_subdirectory(modules/core)
+add_subdirectory(modules/database)
 
 add_executable(${PROJECT_NAME})
 
