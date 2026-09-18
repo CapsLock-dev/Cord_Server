@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(CordServer CXX)
+project(CordServer)
 
 set(EXEC_SRCS	
 	src/main.cpp
@@ -10,6 +10,7 @@ find_package(libpqxx CONFIG REQUIRED)
 
 add_subdirectory(modules/core)
 add_subdirectory(modules/database)
+add_subdirectory(modules/domain)
 
 add_executable(${PROJECT_NAME})
 
