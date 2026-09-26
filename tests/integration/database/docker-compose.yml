@@ -26,5 +26,5 @@ services:
     environment:
       DATABASE_URL: postgres://test_user:test_pass@cord_test_postgres:5432/test_db?sslmode=disable
     volumes:
-      - ../../migrations:/db/migrations
+      - ../../../migrations:/db/migrations
     command: ["up"]

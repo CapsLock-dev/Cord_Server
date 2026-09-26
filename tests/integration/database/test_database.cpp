@@ -19,7 +19,14 @@ class DatabaseTest : public testing::Test {
         s_db.reset();
     }
     void SetUp() override {}
-    void TearDown() override {}
+    void TearDown() override {
+        auto res = s_db->transaction([](pqxx::work& txn) {
+            txn.exec("DELETE * FROM users;");
+            txn.exec("DELETE * FROM tokens;");
+            txn.commit();
+            return 0;
+        });
+    }
 };
 
 TEST_F(DatabaseTest, TransactionSuccess) {
@@ -77,8 +84,11 @@ TEST_F(DatabaseTest, TransactionAbortOnFail) {
         txn.commit();
         return "good";
     };
-    username = "username_test_2";
     auto res = s_db->transaction(lambda);
+    EXPECT_TRUE(res.has_value()) << res.error().detail;
+
+    username = "username_test_2";
+    res = s_db->transaction(lambda);
     EXPECT_FALSE(res.has_value()) << res.value();
     EXPECT_EQ(res.error().ec, db::DatabaseErrorCode::ConstraintViolation);
 
