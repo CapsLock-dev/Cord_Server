@@ -6,10 +6,13 @@ set(EXEC_SRCS
 	src/main.cpp
 )
 
+find_package(Boost CONFIG REQUIRED COMPONENTS asio beast system program_options)
+find_package(OpenSSL REQUIRED COMPONENTS SSL Crypto)
 find_package(libpqxx CONFIG REQUIRED)
 
 add_subdirectory(modules/core)
 add_subdirectory(modules/database)
+add_subdirectory(modules/network)
 
 add_executable(${PROJECT_NAME})
 
@@ -17,7 +20,8 @@ target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 target_sources(${PROJECT_NAME} PRIVATE ${EXEC_SRCS})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-    core
+    core database network
+    Boost::program_options
 )
 
 option(BUILD_TESTING "Build unit and integration tests" OFF)

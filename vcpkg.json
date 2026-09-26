@@ -1,6 +1,10 @@
 {
   "dependencies": [
     "libpqxx",
-    "gtest"
+    "gtest",
+    "boost-asio",
+    "boost-beast",
+    "boost-program-options",
+    "openssl"
   ]
 }
