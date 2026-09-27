@@ -12,4 +12,4 @@ target_link_libraries(integration_database
         GTest::gtest_main
 )
 
-gtest_discover_tests(integration_database PROPERTIES LABELS "integration")
+gtest_discover_tests(integration_database PROPERTIES LABELS "integration;database")

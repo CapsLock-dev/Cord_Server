@@ -14,6 +14,7 @@
 
 # Running integration tests
 
-Integration tests use their own database container, docker-compose is located in tests/integration.
-Always run them with script `./scripts/run_integration_tests.sh`
+## Database
 
+Database integration tests use their own database container, docker-compose is located in tests/integration/database
+Always run them with script `./scripts/run_integration_tests.sh`
