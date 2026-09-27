@@ -8,3 +8,4 @@ vcpkg_installed
 scripts/start_debug.sh
 cert.pem
 key.pem
+tests/integration/websocket/autobahn/reports
