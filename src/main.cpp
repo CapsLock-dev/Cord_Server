@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
         signals.async_wait([&server](boost::beast::error_code const&, int) {
             server.stop();
         });
-        server.run(port, "0.0.0.0", threads);
+        server.run(port, address, threads);
     } catch (const std::exception& e) {
         LOG_CRITICAL("Error in main: {}", e.what());
     }
